@@ -149,7 +149,7 @@ The repository includes a pre-configured GitHub Actions workflow (`.github/workf
 
 **Manual runs:**
 - Go to your repository → Actions tab
-- Click "Stock RSI Tracker" workflow
+- Click "RSI Monitor" workflow
 - Click "Run workflow" button
 
 ```yaml
