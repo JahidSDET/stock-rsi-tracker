@@ -149,11 +149,11 @@ The repository includes a pre-configured GitHub Actions workflow (`.github/workf
 
 **Manual runs:**
 - Go to your repository → Actions tab
-- Click "RSI Stock Tracker" workflow
+- Click "Stock RSI Tracker" workflow
 - Click "Run workflow" button
 
 ```yaml
-name: RSI Stock Tracker
+name: Stock RSI Tracker
 
 on:
   schedule:
