@@ -2,7 +2,13 @@ name: RSI Monitor
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '30 13 * * 1-5'   # 9:30 AM ET (13:30 UTC)
+    - cron: '30 14 * * 1-5'   # 10:30 AM ET
+    - cron: '30 15 * * 1-5'   # 11:30 AM ET
+    - cron: '30 16 * * 1-5'   # 12:30 PM ET
+    - cron: '30 17 * * 1-5'   # 1:30 PM ET
+    - cron: '30 18 * * 1-5'   # 2:30 PM ET
+    - cron: '30 19 * * 1-5'   # 3:30 PM ET
   workflow_dispatch:
 
 jobs:
