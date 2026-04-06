@@ -64,15 +64,15 @@ for stock in stocks:
         latest_rsi = data['RSI'].dropna().iloc[-1]
         print(f"📊 {stock}: RSI={latest_rsi:.2f}")
         
-        # Send alert only if RSI < 55 and not already alerted
-        if latest_rsi < 55 and not alerted.get(stock, False):
+        # Send alert only if RSI < 30 and not already alerted
+        if latest_rsi < 30 and not alerted.get(stock, False):
             alert = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {stock} RSI is {latest_rsi:.2f} - Oversold!"
             print(alert)
             send_telegram_message(alert)
             alerted[stock] = True
         
-        # Reset alert if RSI goes back above 55
-        if latest_rsi >= 55 and alerted.get(stock, False):
+        # Reset alert if RSI goes back above 30
+        if latest_rsi >= 30 and alerted.get(stock, False):
             alerted[stock] = False
             print(f"✅ {stock}: RSI recovered to {latest_rsi:.2f} - Alert cleared")
     
