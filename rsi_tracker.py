@@ -62,6 +62,7 @@ for stock in stocks:
         
         # Get latest RSI value (skip NaN values)
         latest_rsi = data['RSI'].dropna().iloc[-1]
+        print(f"📊 {stock}: RSI={latest_rsi:.2f}")
         
         # Send alert only if RSI < 30 and not already alerted
         if latest_rsi < 30 and not alerted.get(stock, False):
