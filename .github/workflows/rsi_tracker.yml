@@ -1,3 +1,4 @@
+# Trigger GitHub Actions recognition
 name: RSI Tracker
 
 on:
