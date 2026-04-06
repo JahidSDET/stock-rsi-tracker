@@ -37,8 +37,9 @@ def send_telegram_message(message):
 # 5️⃣ Check RSI for each stock
 for stock in stocks:
     try:
-        # Download data
-        data = yf.download(stock, period="1mo", interval="1h", progress=False)
+        # Download data using Ticker.history (more reliable for single tickers)
+        ticker = yf.Ticker(stock)
+        data = ticker.history(period="1mo", interval="1h")
         
         # Skip if no data was downloaded
         if data.empty or len(data) < 15:
@@ -51,7 +52,8 @@ for stock in stocks:
             continue
         
         # Calculate RSI
-        data['RSI'] = ta.momentum.RSIIndicator(data['Close'], window=14).rsi()
+        close = data['Close'].squeeze()
+        data['RSI'] = ta.momentum.RSIIndicator(close, window=14).rsi()
         
         # Skip if RSI column is empty
         if data['RSI'].isna().all():
