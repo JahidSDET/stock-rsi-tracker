@@ -35,7 +35,7 @@ A Python-based stock monitoring tool that tracks Relative Strength Index (RSI) f
 
 4. **Install dependencies:**
    ```bash
-   pip install yfinance pandas_ta requests
+   pip install -r requirements.txt
    ```
 
 ## Configuration
@@ -106,6 +106,8 @@ The script will:
 - `yfinance` - Yahoo Finance data downloader
 - `pandas-ta` - Technical analysis library
 - `requests` - HTTP library for Telegram API
+
+All dependencies are listed in `requirements.txt` with minimum version requirements.
 
 ## Customization
 
