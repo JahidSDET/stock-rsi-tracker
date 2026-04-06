@@ -104,10 +104,10 @@ The script will:
 ## Dependencies
 
 - `yfinance` - Yahoo Finance data downloader
-- `pandas-ta` - Technical analysis library
+- `ta` - Technical analysis library
 - `requests` - HTTP library for Telegram API
 
-All dependencies are listed in `requirements.txt` with minimum version requirements.
+All dependencies are listed in `requirements.txt` with pinned versions for stability.
 
 ## Customization
 

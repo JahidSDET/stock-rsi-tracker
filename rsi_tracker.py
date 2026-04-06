@@ -1,5 +1,5 @@
 import yfinance as yf 
-import pandas_ta as ta
+import ta
 import requests
 from datetime import datetime
 import os
@@ -37,7 +37,7 @@ def send_telegram_message(message):
 # 5️⃣ Check RSI for each stock
 for stock in stocks:
     data = yf.download(stock, period="1mo", interval="1h", progress=False)
-    data['RSI'] = ta.rsi(data['Close'], length=14)
+    data['RSI'] = ta.momentum.RSIIndicator(data['Close'], window=14).rsi()
     
     latest_rsi = data['RSI'].iloc[-1]
     
