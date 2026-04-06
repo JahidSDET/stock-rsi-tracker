@@ -1,5 +1,5 @@
 # RSI Stock Tracker - Automated hourly runs
-name: RSI Tracker
+name: Stock RSI Tracker
 
 on:
   schedule:
