@@ -36,21 +36,46 @@ def send_telegram_message(message):
 
 # 5️⃣ Check RSI for each stock
 for stock in stocks:
-    data = yf.download(stock, period="1mo", interval="1h", progress=False)
-    data['RSI'] = ta.momentum.RSIIndicator(data['Close'], window=14).rsi()
+    try:
+        # Download data
+        data = yf.download(stock, period="1mo", interval="1h", progress=False)
+        
+        # Skip if no data was downloaded
+        if data.empty or len(data) < 15:
+            print(f"⚠️  {stock}: No data or insufficient data (need 15+ candles for RSI)")
+            continue
+        
+        # Skip if Close column is missing
+        if 'Close' not in data.columns:
+            print(f"⚠️  {stock}: Missing Close price data")
+            continue
+        
+        # Calculate RSI
+        data['RSI'] = ta.momentum.RSIIndicator(data['Close'], window=14).rsi()
+        
+        # Skip if RSI column is empty
+        if data['RSI'].isna().all():
+            print(f"⚠️  {stock}: RSI calculation failed (insufficient data)")
+            continue
+        
+        # Get latest RSI value (skip NaN values)
+        latest_rsi = data['RSI'].dropna().iloc[-1]
+        
+        # Send alert only if RSI < 30 and not already alerted
+        if latest_rsi < 30 and not alerted.get(stock, False):
+            alert = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {stock} RSI is {latest_rsi:.2f} - Oversold!"
+            print(alert)
+            send_telegram_message(alert)
+            alerted[stock] = True
+        
+        # Reset alert if RSI goes back above 30
+        if latest_rsi >= 30 and alerted.get(stock, False):
+            alerted[stock] = False
+            print(f"✅ {stock}: RSI recovered to {latest_rsi:.2f} - Alert cleared")
     
-    latest_rsi = data['RSI'].iloc[-1]
-    
-    # Send alert only if RSI < 30 and not already alerted
-    if latest_rsi < 30 and not alerted.get(stock, False):
-        alert = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {stock} RSI is {latest_rsi:.2f} - Oversold!"
-        print(alert)
-        send_telegram_message(alert)
-        alerted[stock] = True
-    
-    # Reset alert if RSI goes back above 30
-    if latest_rsi >= 30 and alerted.get(stock, False):
-        alerted[stock] = False
+    except Exception as e:
+        print(f"❌ {stock}: Error - {str(e)}")
+        continue
 
 # Save alert status
 with open(ALERT_FILE, "w") as f:
